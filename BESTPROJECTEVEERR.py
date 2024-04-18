@@ -13,6 +13,16 @@ class Pen(turtle.Turtle):
         self.color("white")
         self.penup()
         self.speed(0)
+        
+#create player class
+class Player(turtle.Turtle):
+    def __init__(self):
+        turtle.Turtle.__init__(self)
+        self.shape("square")
+        self.color("blue")
+        self.penup()
+        self.speed(0)
+        
 
 #Create levels list
 levels = [""]
@@ -65,8 +75,13 @@ def setup_maze(level):
                 pen.goto(screen_x, screen_y)
                 pen.stamp()
 
+            #Check if it is a P (representing the player)
+            if character == "P":
+                player.goto(screen_x, screen_y)
+
 #Create class instances
 pen = Pen()
+player = Player()
 
 #Setting the level
 setup_maze(levels[1])
