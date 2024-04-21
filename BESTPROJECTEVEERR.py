@@ -1,10 +1,8 @@
 import turtle
-
 wn = turtle.Screen()
 wn.bgcolor("LightSteelBlue")
 wn.title("Escape 1051")
 wn.setup(700,700)
-
 #The pen for the blocks!
 class Pen(turtle.Turtle):
     def __init__(self):
@@ -13,7 +11,7 @@ class Pen(turtle.Turtle):
         self.color("white")
         self.penup()
         self.speed(0)
-        
+
 #create player class
 class Player(turtle.Turtle):
     def __init__(self):
@@ -22,11 +20,20 @@ class Player(turtle.Turtle):
         self.color("blue")
         self.penup()
         self.speed(0)
-        
 
+    def go_up(self):
+        self.goto(self.xcor(), self.ycor() + 24)
+
+    def go_down(self):
+        self.goto(self.xcor(), self.ycor() - 24)
+
+    def go_left(self):
+        self.goto(self.xcor() - 24, self.ycor())
+
+    def go_right(self):
+        self.goto(self.xcor() + 24, self.ycor())
 #Create levels list
 levels = [""]
-
 #Define first level
 level_1 = [
 "XXXXXXXXXXXXXXXXXXXXXXXXX",
@@ -55,10 +62,8 @@ level_1 = [
 "XXXX                    X",
 "XXXXXXXXXXXXXXXXXXXXXXXXX",
 ]
-
 #Add maze to maze list
 levels.append(level_1)
-
 #Create Level Setup Function
 def setup_maze(level):
     for y in range(len(level)):
@@ -69,7 +74,6 @@ def setup_maze(level):
             #calculate the screen x, y coordinates
             screen_x = -288 + (x * 24)
             screen_y = 288 - (y * 24)
-
             #check if it is an X (representing a wall)
             if character =="X":
                 pen.goto(screen_x, screen_y)
@@ -86,7 +90,17 @@ player = Player()
 #Setting the level
 setup_maze(levels[1])
 
+#Keyboard Binding
+turtle.listen()
+turtle.onkey(player.go_left,"Left")
+turtle.onkey(player.go_right,"Right")
+turtle.onkey(player.go_up,"Up")
+turtle.onkey(player.go_down,"Down")
+
+#Turn off screen updates
+wn.tracer(0)
+
 #Main Game Loop
 while True:
-    pass
+    wn.update()
 
