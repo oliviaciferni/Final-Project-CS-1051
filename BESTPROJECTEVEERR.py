@@ -12,6 +12,7 @@
     
 #PART 1: Setting up the maze 
 import turtle
+import math
 
 wn = turtle.Screen()
 wn.bgcolor("LightSteelBlue")
@@ -35,7 +36,7 @@ class Player(turtle.Turtle):
         self.color("blue")
         self.penup()
         self.speed(0)
-
+        self.gold = 0
     def go_up(self):
         #Calculate the spot to move to
         move_to_x = player.xcor()
@@ -72,6 +73,31 @@ class Player(turtle.Turtle):
         if (move_to_x, move_to_y) not in walls:
             self.goto(move_to_x, move_to_y)
 
+    #Check if the player is hitting the chest
+    def is_collision(self,other):
+        a = self.xcor()-other.xcor()
+        b = self.ycor()-other.ycor()
+        distance = math.sqrt((a**2)+(b**2))
+
+        if distance < 5:
+            return True
+        else:
+            return False
+
+#Creating the treature
+class Treasure(turtle.Turtle):
+    def __init__(self, x, y):
+        turtle.Turtle.__init__(self)
+        self.shape("circle")
+        self.color("gold")
+        self.penup()
+        self.speed(0)
+        self.gold = 100
+        self.goto(x,y)
+
+    def destroy(self):
+        self.goto(2000, 2000)
+        self.hideturtle()
 
 
 #Create levels list
@@ -86,7 +112,7 @@ level_1 = [
 "X XXXXXXXX XXXXXXX XXXXXX",
 "X XXXXXXXX XXXXXXX XXXXXX",
 "X     XXXX XXXXXXX XXXXXX",
-"XXXXX XXX               X",
+"XXXXX XXX              TX",
 "XXXXX XXX XXXXXXXXXXXXX X",
 "XXX            XXXXXXXX X",
 "XXX XXXXXXXXXX XXXXXXXX X",
@@ -97,7 +123,7 @@ level_1 = [
 "X         XXXXX         X",
 "XXXXX XXXXXXXXX XXXX XXXX",
 "XXXXX XXXXXXXXX XXXX XXXX",
-"XXXXX           XXXX XXXX",
+"XXXXX       T   XXXX XXXX",
 "XXXXXXXXXXXXXX XXXXX XXXX",
 "XXXXXXXXXXXXXX XXXXX XXXX",
 "XXXX           XX    XXXX",
@@ -105,6 +131,9 @@ level_1 = [
 "XXXX                    X",
 "XXXXXXXXXXXXXXXXXXXXXXXXX",
 ]
+
+#Add a treasure lsit
+treasures = []
 
 #Add maze
 levels.append(level_1)
@@ -130,7 +159,9 @@ def setup_maze(level):
             #Check if it is a P (representing the player)
             if character == "P":
                 player.goto(screen_x, screen_y)
-        
+            #Check if it is a T (representing Treasure)
+            if character == "T":
+                treasures.append(Treasure(screen_x, screen_y))
 
 
 #Create class instances
@@ -155,9 +186,19 @@ wn.tracer(0)
 
 #Main Game Loop
 while True:
+    #Check for player collision with treature
+    #iterate through treasure list
+    for treasure in treasures:
+        if player.is_collision(treasure):
+            #Add the treasure gold to the player gold
+            player.gold += treasure.gold
+            print("Player Gold: {}".format(player.gold))
+            #Destroy the treasure
+            treasure.destroy()
+            #Remove the treasure from treasure list
+            treasures.remove(treasure)
     #Update screen
     wn.update()
-
 
 
 
