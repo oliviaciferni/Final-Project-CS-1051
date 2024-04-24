@@ -99,7 +99,27 @@ class Treasure(turtle.Turtle):
         self.goto(2000, 2000)
         self.hideturtle()
 
-
+def questions(treasure):
+    questions={"What statment should be used when wanting to just display text? A)'print' B)'.format' C)'return'":"A",
+            "What should you import when you want to use 'turtle' in your code? A)'Import turtle.Turtle' B)'Import turtle' C)'import random'":"B"}
+    for question in questions.keys():
+        if question in asked_questions:
+            continue
+        print(question)
+        answer = input("Enter:")
+        answer = answer.upper()
+        if answer == questions[question]:
+            print("Correct!")
+            asked_questions.add(question)
+            return True
+        else:
+            print("Try Again!")
+            break
+    return False
+    
+#Set to keep track of asked questions
+asked_questions = set()
+    
 #Create levels list
 levels = [""]
 
@@ -189,21 +209,16 @@ while True:
     #Check for player collision with treature
     #iterate through treasure list
     for treasure in treasures:
-        if player.is_collision(treasure):
-            #Add the treasure gold to the player gold
-            player.gold += treasure.gold
-            print("Player Gold: {}".format(player.gold))
-            #Destroy the treasure
-            treasure.destroy()
-            #Remove the treasure from treasure list
-            treasures.remove(treasure)
+        if player.is_collision(treasure) is True:
+            #Add the treasure gold to the player gold when answer is correct
+            if questions(treasure):
+                player.gold += treasure.gold
+                print("Player Gold: {}".format(player.gold))
+                #Destroy the treasure
+                treasure.destroy()
+                #Remove the treasure from treasure list
+                treasures.remove(treasure)
+                break       
     #Update screen
     wn.update()
-
-
-
-
-
-
-
 
