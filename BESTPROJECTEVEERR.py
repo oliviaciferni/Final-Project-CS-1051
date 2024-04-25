@@ -15,9 +15,15 @@ import turtle
 import math
 
 wn = turtle.Screen()
-wn.bgcolor("LightSteelBlue")
+wn.bgcolor("forest green")
 wn.title("Escape 1051")
 wn.setup(700,700)
+
+#Register shapes
+turtle.register_shape("rosen_right.gif")
+turtle.register_shape("rosen_left.gif")
+turtle.register_shape("cat.gif")
+turtle.register_shape("wall.gif")
 
 #create pen
 class Pen(turtle.Turtle):
@@ -32,11 +38,12 @@ class Pen(turtle.Turtle):
 class Player(turtle.Turtle):
     def __init__(self):
         turtle.Turtle.__init__(self)
-        self.shape("square")
+        self.shape("rosen_right.gif")
         self.color("blue")
         self.penup()
         self.speed(0)
         self.gold = 0
+
     def go_up(self):
         #Calculate the spot to move to
         move_to_x = player.xcor()
@@ -60,6 +67,8 @@ class Player(turtle.Turtle):
         move_to_x = player.xcor() - 24
         move_to_y = player.ycor()
 
+        self.shape("rosen_left.gif")
+
         #Check if the space has a wall
         if (move_to_x, move_to_y) not in walls:
             self.goto(move_to_x, move_to_y)
@@ -69,57 +78,38 @@ class Player(turtle.Turtle):
         move_to_x = player.xcor() + 24
         move_to_y = player.ycor()
 
+        self.shape("rosen_right.gif")
+
         #Check if the space has a wall
         if (move_to_x, move_to_y) not in walls:
             self.goto(move_to_x, move_to_y)
 
-    #Check if the player is hitting the chest
-    def is_collision(self,other):
+    #Check if player is hitting the chest
+    def is_collision(self, other):
         a = self.xcor()-other.xcor()
         b = self.ycor()-other.ycor()
-        distance = math.sqrt((a**2)+(b**2))
+        distance = math.sqrt((a ** 2) + (b ** 2) )
 
         if distance < 5:
             return True
         else:
             return False
 
-#Creating the treature
+#create treasure class
 class Treasure(turtle.Turtle):
     def __init__(self, x, y):
         turtle.Turtle.__init__(self)
-        self.shape("circle")
+        self.shape("cat.gif")
         self.color("gold")
         self.penup()
         self.speed(0)
         self.gold = 100
-        self.goto(x,y)
+        self.goto(x, y)
 
     def destroy(self):
         self.goto(2000, 2000)
-        self.hideturtle()
+        self.hideturtle() 
 
-def questions(treasure):
-    questions={"What statment should be used when wanting to just display text? A)'print' B)'.format' C)'return'":"A",
-            "What should you import when you want to use 'turtle' in your code? A)'Import turtle.Turtle' B)'Import turtle' C)'import random'":"B"}
-    for question in questions.keys():
-        if question in asked_questions:
-            continue
-        print(question)
-        answer = input("Enter:")
-        answer = answer.upper()
-        if answer == questions[question]:
-            print("Correct!")
-            asked_questions.add(question)
-            return True
-        else:
-            print("Try Again!")
-            break
-    return False
-    
-#Set to keep track of asked questions
-asked_questions = set()
-    
 #Create levels list
 levels = [""]
 
@@ -152,7 +142,7 @@ level_1 = [
 "XXXXXXXXXXXXXXXXXXXXXXXXX",
 ]
 
-#Add a treasure lsit
+#Add a treasures list
 treasures = []
 
 #Add maze
@@ -172,6 +162,7 @@ def setup_maze(level):
             #Check if it is an X (represnting a wall)
             if character == "X":
                 pen.goto(screen_x, screen_y)
+                pen.shape("wall.gif")
                 pen.stamp()
                 #Add coordinates to wall list
                 walls.append((screen_x, screen_y))
@@ -179,9 +170,11 @@ def setup_maze(level):
             #Check if it is a P (representing the player)
             if character == "P":
                 player.goto(screen_x, screen_y)
+
             #Check if it is a T (representing Treasure)
             if character == "T":
                 treasures.append(Treasure(screen_x, screen_y))
+        
 
 
 #Create class instances
@@ -206,19 +199,27 @@ wn.tracer(0)
 
 #Main Game Loop
 while True:
-    #Check for player collision with treature
-    #iterate through treasure list
+    #Check for player collision with treasure
+    #Iterate through treasure list
     for treasure in treasures:
-        if player.is_collision(treasure) is True:
-            #Add the treasure gold to the player gold when answer is correct
-            if questions(treasure):
-                player.gold += treasure.gold
-                print("Player Gold: {}".format(player.gold))
-                #Destroy the treasure
-                treasure.destroy()
-                #Remove the treasure from treasure list
-                treasures.remove(treasure)
-                break       
+        if player.is_collision(treasure):
+            #Add the treasure gold to the player gold
+            player.gold += treasure.gold
+            print ("Player Gold: {}".format(player.gold))
+            #Destroy the treasure
+            treasure.destroy()
+            #Remove the treasure from the treasure list
+            treasures.remove(treasure)
+
+
     #Update screen
     wn.update()
+
+
+
+
+
+
+
+
 
