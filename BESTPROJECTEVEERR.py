@@ -8,7 +8,6 @@
         #BL: -288, -288
         #BR: 288, -288
     
-#PART 1: Setting up the maze 
 import turtle
 import math
 import random
@@ -104,7 +103,10 @@ class Treasure(turtle.Turtle):
         self.gold = 100
         self.goto(x, y)
         
-
+    def destroy(self):
+        self.goto(2000, 2000)
+        self.hideturtle()
+        
 class Enemy(turtle.Turtle):
     def __init__(self, x, y):
         turtle.Turtle.__init__(self)
@@ -149,9 +151,6 @@ class Enemy(turtle.Turtle):
         #Set timer to move next time
         turtle.ontimer(self.move, t=random.randint(100,300))
 
-    def destroy(self):
-        self.goto(2000, 2000)
-        self.hideturtle()
                                                   
 def questions(treasure):
     questions={"What statment should be used when wanting to just display text? A)'print' B)'.format' C)'return'":"A",
