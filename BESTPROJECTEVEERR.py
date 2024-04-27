@@ -8,6 +8,7 @@
         #BL: -288, -288
         #BR: 288, -288
     
+#PART 1: Setting up the maze 
 import turtle
 import math
 import random
@@ -19,9 +20,12 @@ wn.setup(700,700)
 wn.tracer(0)
 
 #Register shapes
-images = ["snake_left.gif","snake_right.gif","rosen_right.gif","rosen_left.gif","cat.gif","wall.gif"]
+images = ["rosen_right.gif", "rosen_left.gif",
+          "cat.gif", "wall.gif",
+          "snake_right.gif", "snake_left.gif"]
 for image in images:
-          turtle.register_shape(image)
+    turtle.register_shape(image)
+
 
 #create pen
 class Pen(turtle.Turtle):
@@ -44,8 +48,8 @@ class Player(turtle.Turtle):
         
     def go_up(self):
         #Calculate the spot to move to
-        move_to_x = player.xcor()
-        move_to_y = player.ycor() + 24
+        move_to_x = self.xcor()
+        move_to_y = self.ycor() + 24
         
         #Check if the space has a wall
         if (move_to_x, move_to_y) not in walls:
@@ -53,16 +57,16 @@ class Player(turtle.Turtle):
             
     def go_down(self):
         #Calculate the spot to move to
-        move_to_x = player.xcor()
-        move_to_y = player.ycor() - 24
+        move_to_x = self.xcor()
+        move_to_y = self.ycor() - 24
         #Check if the space has a wall
         if (move_to_x, move_to_y) not in walls:
             self.goto(move_to_x, move_to_y)
             
     def go_left(self):
         #Calculate the spot to move to
-        move_to_x = player.xcor() - 24
-        move_to_y = player.ycor()
+        move_to_x = self.xcor() - 24
+        move_to_y = self.ycor()
 
         self.shape("rosen_left.gif")
          
@@ -72,8 +76,8 @@ class Player(turtle.Turtle):
             
     def go_right(self):
         #Calculate the spot to move to
-        move_to_x = player.xcor() + 24
-        move_to_y = player.ycor()
+        move_to_x = self.xcor() + 24
+        move_to_y = self.ycor()
 
         self.shape("rosen_right.gif")
         
@@ -86,13 +90,13 @@ class Player(turtle.Turtle):
         a = self.xcor()-other.xcor()
         b = self.ycor()-other.ycor()
         distance = math.sqrt((a ** 2)+(b ** 2))
-        
         if distance < 5:
             return True
         else:
             return False
+    
         
-#Creating the treature
+#Creating the treasure
 class Treasure(turtle.Turtle):
     def __init__(self, x, y):
         turtle.Turtle.__init__(self)
@@ -102,11 +106,30 @@ class Treasure(turtle.Turtle):
         self.speed(0)
         self.gold = 100
         self.goto(x, y)
-        
     def destroy(self):
         self.goto(2000, 2000)
         self.hideturtle()
-        
+
+
+def questions(treasure):
+    questions={"What statment should be used when wanting to just display text? A)'print' B)'.format' C)'return'":"A",
+            "What should you import when you want to use 'turtle' in your code? A)'Import turtle.Turtle' B)'Import turtle' C)'import random'":"B"}
+    for question in questions.keys():
+        if question in asked_questions:
+            continue
+        print(question)
+        answer = input("Enter:")
+        answer = answer.upper()
+        if answer == questions[question]:
+            print("Correct!")
+            asked_questions.add(question)
+            return True
+        else:
+            print("Try Again!")
+            break
+    return False
+
+#Creating the enemy
 class Enemy(turtle.Turtle):
     def __init__(self, x, y):
         turtle.Turtle.__init__(self)
@@ -137,6 +160,19 @@ class Enemy(turtle.Turtle):
             dx = 0
             dy = 0
 
+        #Check if player is close
+        #If so, go in that direction
+        if self.is_close(player):
+            if player.xcor() < self.xcor():
+                self.direction = "left"
+            elif player.xcor() > self.xcor():
+                self.direction = "right"
+            elif player.ycor() < self.ycor():
+                self.direction = "down"
+            elif player.ycor() > self.ycor():
+                self.direction = "up"
+            
+
         #Calculate the spot to move to
         move_to_x = self.xcor() + dx
         move_to_y = self.ycor() + dy
@@ -145,30 +181,25 @@ class Enemy(turtle.Turtle):
         if (move_to_x, move_to_y) not in walls:
             self.goto(move_to_x, move_to_y)
         else:
-            #choose a different direction
+            #Choose different direction
             self.direction = random.choice(["up", "down", "left", "right"])
 
         #Set timer to move next time
-        turtle.ontimer(self.move, t=random.randint(100,300))
+        turtle.ontimer(self.move, t=random.randint(100, 300))
 
-                                                  
-def questions(treasure):
-    questions={"What statment should be used when wanting to just display text? A)'print' B)'.format' C)'return'":"A",
-            "What should you import when you want to use 'turtle' in your code? A)'Import turtle.Turtle' B)'Import turtle' C)'import random'":"B"}
-    for question in questions.keys():
-        if question in asked_questions:
-            continue
-        print(question)
-        answer = input("Enter:")
-        answer = answer.upper()
-        if answer == questions[question]:
-            print("Correct!")
-            asked_questions.add(question)
+    def is_close(self, other):
+        a = self.xcor()-other.xcor()
+        b = self.ycor()-other.ycor()
+        distance = math.sqrt((a ** 2) + (b ** 2) )
+
+        if distance < 75:
             return True
         else:
-            print("Try Again!")
-            break
-    return False
+            return False
+
+    def destroy(self):
+        self.goto(2000, 2000)
+        self.hideturtle()
 
 #Set to keep track of asked questions
 asked_questions = set()
@@ -199,18 +230,19 @@ level_1 = [
 "XXXXX       T   XXXX XXXX",
 "XXXXXXXXXXXXXX XXXXX XXXX",
 "XXXXXXXXXXXXXX XXXXX XXXX",
-"XXXX           E     XXXX",
+"XXXX           E    XXXX",
 "XXXX  XXXXXXXXXXXXXXXXXXX",
 "XXXX                    X",
-"XXXXXXXXXXXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXXXXXXXXXXX"
 ]
+
 #Add a treasure list
 treasures = []
 
 #Add enemies list
 enemies = []
 
-#Add maze
+#Add maze to mazes list
 levels.append(level_1)
 
 #Create Level Setup Function
@@ -240,9 +272,10 @@ def setup_maze(level):
             if character == "T":
                 treasures.append(Treasure(screen_x, screen_y))
 
-            #Check if it is an E (representing Enemy)
+            #Check if it is an E(representing Enemy)
             if character == "E":
                 enemies.append(Enemy(screen_x, screen_y))
+                
                 
 #Create class instances
 pen = Pen()
@@ -267,7 +300,7 @@ wn.tracer(0)
 #Start moving enemies
 for enemy in enemies:
     turtle.ontimer(enemy.move, t=250)
-    
+
 #Main Game Loop
 while True:
     #Check for player collision with treature
@@ -282,11 +315,11 @@ while True:
                 treasure.destroy()
                 #Remove the treasure from treasure list
                 treasures.remove(treasure)
-                break
-            
+
     #Iterate through enemy list to see if the player collides
     for enemy in enemies:
         if player.is_collision(enemy):
-            print("Player dies!")
+            print ("Player dies!")
+                       
     #Update screen
     wn.update()
