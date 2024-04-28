@@ -44,7 +44,10 @@ class Player(turtle.Turtle):
         self.color("blue")
         self.penup()
         self.speed(0)
+        
+        #Player Characterisitcs
         self.gold = 0
+        self.lives = 3
         
     def go_up(self):
         #Calculate the spot to move to
@@ -70,6 +73,7 @@ class Player(turtle.Turtle):
 
         self.shape("rosen_left.gif")
          
+
         #Check if the space has a wall
         if (move_to_x, move_to_y) not in walls:
             self.goto(move_to_x, move_to_y)
@@ -95,7 +99,6 @@ class Player(turtle.Turtle):
         else:
             return False
     
-        
 #Creating the treasure
 class Treasure(turtle.Turtle):
     def __init__(self, x, y):
@@ -113,7 +116,8 @@ class Treasure(turtle.Turtle):
 
 def questions(treasure):
     questions={"What statment should be used when wanting to just display text? A)'print' B)'.format' C)'return'":"A",
-            "What should you import when you want to use 'turtle' in your code? A)'Import turtle.Turtle' B)'Import turtle' C)'import random'":"B"}
+            "What should you import when you want to use 'turtle' in your code? A)'Import turtle.Turtle' B)'Import turtle' C)'import random'":"B",
+               "What does 'print('1+1')' output in python? A)'11' B)'2' C)'1+1'":"C"}
     for question in questions.keys():
         if question in asked_questions:
             continue
@@ -171,21 +175,22 @@ class Enemy(turtle.Turtle):
                 self.direction = "down"
             elif player.ycor() > self.ycor():
                 self.direction = "up"
-            
+
 
         #Calculate the spot to move to
         move_to_x = self.xcor() + dx
         move_to_y = self.ycor() + dy
-
         #Check if the space has a wall
         if (move_to_x, move_to_y) not in walls:
             self.goto(move_to_x, move_to_y)
         else:
+            #choose a different direction
             #Choose different direction
             self.direction = random.choice(["up", "down", "left", "right"])
 
         #Set timer to move next time
-        turtle.ontimer(self.move, t=random.randint(100, 300))
+        turtle.ontimer(self.move, t=random.randint(100,300))
+
 
     def is_close(self, other):
         a = self.xcor()-other.xcor()
@@ -203,10 +208,8 @@ class Enemy(turtle.Turtle):
 
 #Set to keep track of asked questions
 asked_questions = set()
-
 #Create levels list
 levels = [""]
-
 #Define first level
 level_1 = [
 "XXXXXXXXXXXXXXXXXXXXXXXXX",
@@ -218,7 +221,7 @@ level_1 = [
 "X     XXXX XXXXXXX XXXXXX",
 "XXXXX XXX              TX",
 "XXXXX XXX XXXXXXXXXXXXX X",
-"XXXE           XXXXXXXX X",
+"XXX            XXXXXXXX X",
 "XXX XXXXXXXXXX XXXXXXXX X",
 "XXX XXXXXXXXXX XXXXXXXX X",
 "X   XXXXX               X",
@@ -230,9 +233,11 @@ level_1 = [
 "XXXXX       T   XXXX XXXX",
 "XXXXXXXXXXXXXX XXXXX XXXX",
 "XXXXXXXXXXXXXX XXXXX XXXX",
-"XXXX           E    XXXX",
+"XXXX                 XXXX",
 "XXXX  XXXXXXXXXXXXXXXXXXX",
-"XXXX                    X",
+"XXXX  XXXXXXXXXXXXXXXXXXX",
+"XXXX                   TX",
+"XXXXXXXXXXXXXXXXXXXXXXXXX",
 "XXXXXXXXXXXXXXXXXXXXXXXXX"
 ]
 
@@ -275,31 +280,27 @@ def setup_maze(level):
             #Check if it is an E(representing Enemy)
             if character == "E":
                 enemies.append(Enemy(screen_x, screen_y))
-                
-                
+
+
 #Create class instances
 pen = Pen()
 player = Player()
-
 #Create wall coordinate list
 walls = []
-
 #Set up the level
 setup_maze(levels[1])
-
 #Keyboard Binding
 turtle.listen()
 turtle.onkey(player.go_left,"Left")
 turtle.onkey(player.go_right,"Right")
 turtle.onkey(player.go_up,"Up")
 turtle.onkey(player.go_down,"Down")
-
 #Turn off screen updates
 wn.tracer(0)
-
 #Start moving enemies
 for enemy in enemies:
     turtle.ontimer(enemy.move, t=250)
+    
 
 #Main Game Loop
 while True:
@@ -315,11 +316,13 @@ while True:
                 treasure.destroy()
                 #Remove the treasure from treasure list
                 treasures.remove(treasure)
+                break
+
 
     #Iterate through enemy list to see if the player collides
     for enemy in enemies:
         if player.is_collision(enemy):
-            print ("Player dies!")
-                       
+            print("Player dies!")
+            
     #Update screen
     wn.update()
