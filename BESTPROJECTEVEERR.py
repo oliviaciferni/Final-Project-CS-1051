@@ -322,7 +322,13 @@ while True:
     #Iterate through enemy list to see if the player collides
     for enemy in enemies:
         if player.is_collision(enemy):
+            player.goto(-264, 264)
+            player.lives -= 1
             print("Player dies!")
+            print("Lives: {}".format(player.lives))
+            if player.lives == -1:
+                print("You lost! Try again later")
+                turtle.bye()
             
     #Update screen
     wn.update()
