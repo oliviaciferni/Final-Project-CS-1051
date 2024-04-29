@@ -117,15 +117,14 @@ class Treasure(turtle.Turtle):
 
 
 def questions(treasure):
-    def questions(treasure):
-        questions={"What statment should be used when wanting to just display text? A)'print' B)'.format' C)'return'":"A",
-                   "What should you import when you want to use 'turtle' in your code? A)'Import turtle.Turtle' B)'Import turtle' C)'import random'":"B",
-                   "What does 'print('1+1')' output in python? A)'11' B)'2' C)'1+1'":"C",
-                   "What character should you use to comment out a piece if code? A)* B)* C)#":"C",
-                   "Which of the following cannot be used at the start of a variable name? A)An underscore B)A number C)An uppercase letter":"B",
-                   "Which of the following is the correct way to assign a numeric value to a variable? A)x=int(5) B) x=5 C)Both answers are correct":"C",
-                   "What is the index of 'b' in 'banana'? A)0 B)1 C)There is no index for strings":"A",
-                   "Which operator should be used when squaring a number? A)^ B)** C)%":"B"}
+    questions={"What statment should be used when wanting to just display text? A)'print' B)'.format' C)'return'":"A",
+               "What should you import when you want to use 'turtle' in your code? A)'Import turtle.Turtle' B)'Import turtle' C)'import random'":"B",
+               "What does 'print('1+1')' output in python? A)'11' B)'2' C)'1+1'":"C",
+               "What character should you use to comment out a piece if code? A)* B)* C)#":"C",
+               "Which of the following cannot be used at the start of a variable name? A)An underscore B)A number C)An uppercase letter":"B",
+               "Which of the following is the correct way to assign a numeric value to a variable? A)x=int(5) B) x=5 C)Both answers are correct":"C",
+               "What is the index of 'b' in 'banana'? A)0 B)1 C)There is no index for strings":"A",
+               "Which operator should be used when squaring a number? A)^ B)** C)%":"B"}    
     for question in questions.keys():
         if question in asked_questions:
             continue
@@ -141,7 +140,7 @@ def questions(treasure):
             break
     return False
 
-
+print(questions)
 # Creating the enemy
 class Enemy(turtle.Turtle):
     def __init__(self, x, y):
@@ -302,7 +301,7 @@ level_3 = [
     "XXX       XXXXXXXXXX   XX",
     "XXXXXXX    XXXXXXX    XXX",
     "X  XXXXXX   XXXX   E XXXX",
-    "X    XXXXX    XX   XXXXXX",
+    "X    XXXXX    X    XXXXXX",
     "XX    XXXX        XXXXXXX",
     "XXXX         XXX     XXXX",
     "XXXXXT     XXXXXXXX   XXX",
@@ -409,6 +408,8 @@ wn.tracer(0)
 # Create a variable to track the current level
 current_level_index = 0
 
+current_level_gold = 900
+
 # Main Game Loop
 while True:
     # Check for player collision with treasure
@@ -437,16 +438,17 @@ while True:
                 turtle.bye()
 
     # Check if the player has enough gold to move to the next level
-    if player.gold == 100:
+    if player.gold == current_level_gold:
+        if player.gold == 900:
+            print("Congradualations! You've won!")
+            break
         clear_maze(levels[current_level_index])
         levels.remove(levels[current_level_index])
         setup_maze(levels[current_level_index])
-        player.gold = 0
+        current_level_gold += 300
         player.lives += 1
         player.goto(-264, 264)
-        
-    if levels[current_level_index] == 0:
-        print("Congradualations! You've won!")
+    
         
     # Update screen
     wn.update()
