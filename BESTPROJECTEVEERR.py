@@ -120,11 +120,12 @@ def questions(treasure):
     questions={"What statment should be used when wanting to just display text? A)'print' B)'.format' C)'return'":"A",
                "What should you import when you want to use 'turtle' in your code? A)'Import turtle.Turtle' B)'Import turtle' C)'import random'":"B",
                "What does 'print('1+1')' output in python? A)'11' B)'2' C)'1+1'":"C",
-               "What character should you use to comment out a piece if code? A)* B)* C)#":"C",
+               "What character should you use to comment out a piece of code? A)* B)* C)#":"C",
                "Which of the following cannot be used at the start of a variable name? A)An underscore B)A number C)An uppercase letter":"B",
                "Which of the following is the correct way to assign a numeric value to a variable? A)x=int(5) B) x=5 C)Both answers are correct":"C",
                "What is the index of 'b' in 'banana'? A)0 B)1 C)There is no index for strings":"A",
-               "Which operator should be used when squaring a number? A)^ B)** C)%":"B"}    
+               "Which operator should be used when squaring a number? A)^ B)** C)%":"B",
+               "What is the first the lesson in CS 1051? A) How to use turtle function B) Print 'Hello World!' C) How to use dictionaries": "B"}    
     for question in questions.keys():
         if question in asked_questions:
             continue
@@ -408,7 +409,7 @@ wn.tracer(0)
 # Create a variable to track the current level
 current_level_index = 0
 
-current_level_gold = 900
+current_level_gold = 300
 
 # Main Game Loop
 while True:
