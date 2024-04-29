@@ -442,6 +442,7 @@ while True:
     if player.gold == current_level_gold:
         if player.gold == 900:
             print("Congradualations! You've won!")
+            turtle.bye()
             break
         clear_maze(levels[current_level_index])
         levels.remove(levels[current_level_index])
