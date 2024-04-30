@@ -1,40 +1,23 @@
-# Final-Project-CS-1051
-# Proposal
+Hello! This is a video walk through for our game “Escape 1051” solely created in Python for CIS 1051’s Final Project. My name is Sheila Jimenez, I’m a sophomore, and I created this game with Olivia Ciferni, who’s a freshman.
 
-## What will (likely) be the title of your project?
+Our game, Escape 1051, is a maze game. The player begins with 3 lives, and 0 gold. There are three cats in each level which will ask a different question about python. You must answer each question about python correctly in order to collect all the gold from the cats. Each cat holds 100 gold totalling to 300 in a level. Once you reach a total of 900 gold, and pass 3 levels you win!
+However, Escaping 1051 is not going to be easy, as there are snakes that will increase through each level.  Once you hit a snake you are taken back to the start and lose a life. You can gain 1 life once you complete each level.
 
-Escape 1051
+Now about the game, we were able to follow an intermediate python maze tutorial on youtube, and use functions and modules learned in class like, file read, list, def, if, and while statements to create a fully functioning maze game, with sprites in python 3.12.1.  
 
-## In just a sentence or two, summarize your project. (E.g., "A website that lets you buy and sell stocks.")
+During the making of this game, we were able to learn and incorporate many pythons built in modules. In this video I’m going to go over our use of ‘‘class and initialize(self)”,  “onkey”, and “ontimer”, since these are a large part of making the code work and are newer modules to us.
 
-The objective of the game is to reunite the sprite controlled by the player with another sprite at the end of the game. The player will have to get around obstacles and answer questions about the Python language. 
+“Class” is not an object but can define an object. “Creating a new class creates a new type of object, allowing new instances of that type to be made.” For instance, our class "Pen" is a child of turtle modules turtle class. Our "Pen" is our turtle. Anything our "Pen" can do, our turtle can do. 
+When creating a class we need to use the method initialize, the  "__init__" followed with (self). The method takes the object as its first argument (self), followed by any additional arguments that need to be passed to it. "self" refers to the object that we are calling. Because Pen is the child of a turtle class we have to initialize that class too! This is why we have " turtle.Turtle.__init__(self)” under __init__(self), and this under class pen(turtle.Turtle). While setting up the rest of the code using our class Pen, for every instance that we create it's going to be a square, white, with no trail because of "penup()”, and a speed of (0). 
+Our class pen became incredibly important in setting up our maze,
+The "Setup_maze" definition calls each level that was created and appended to the “levels” list.
+“for y in range length of level” starts with our first row of X in our first “level_1”. Each row of X, is separated by commas and the spaces, which have no condition create a pathway for our sprite, enemies and chests. Then the nested loop “for x in range of the length of level[y] looks at the length of the row, reading each X in each row of X’s. Since each block is 288 pixels, which was already created in python from changing the shape to “square”, we must increase by X times 24 to go to the next block. This translates our screen to x and y.
+Which then allows us to create variables for our game components. For instance, “if character == “X”. The turtle will go to this, screen_x and screen_y coordinate, give the pen shape “wall.gif”, stamp, and then add these coordinates to the walls list. The for loop will continue to look for each variable and change each character for each level. Here is where we call and place our player, “P’”  created in the player definition. It also applies to the treasure “T” aka cats, and enemies “E”. Which each have their own definition and parameters at the top as well. 
+Once the Map was set up, and each character was successfully placed on the map we were able to create moving sprites that can follow you around the map.
+The "turtle.ontimer method" install a timer, which calls fun after t milliseconds. In this for loop, “for enemy in enemies” our enemies call the defintion “move” to move to a  random x, and y coordinate interval from 100 to 300 milliseconds!Normally it can only be set once, but since we placed the for loop in our setup_maze function, for each level, each enemy will randomly move. 
+Move is in the class Enemy, it uses the function direction to face, “up, down, left, and right”, and delta x and y to move “up, down, left and right” 24 pixels in any direction. 
+ It also is where we also placed the if statements  and definitions of having the sprite check is the player is close and calculate the spot to move to 
+Here is_close is called, it is called if the distance is 75 pixels, it calculates the player and other characters distance. Move finally calls this to the object, in this case enemies.
+“Turtle.onkey” allows the computer user to use the “left,right,up,and down” arrows. This function is used to bind a function to the key-release event of the key. This is very important in our game as it allows the player to escape and move around freely during the game.
 
-## In a paragraph or more, detail your project. What will your software do? What features will it have? How will it be executed?
-
-Player will be able to control the movement of sprite using arrows on keyboard. Player will also be able to customize character. Will player is trying to navigate the maze, they will encounter questions about CS 1051 that they must answer correctly to move forward. Coding will done on RenPy, and we will upload original. Background and spites from drawings created on iPad. 
-
-## If planning to combine 1051's final project with another course's final project, with which other course? And which aspect(s) of your proposed project would relate to 1051, and which aspect(s) would relate to the other course?
-
-Not doing that
-
-## If planning to collaborate with 1 or 2 classmates for the final project, list their names, email addresses, and the names of their assigned TAs below.
-
-Sheila Jimenez tuq26337@temple.edu TA: Chong Li
-
-## In the world of software, most everything takes longer to implement than you expect. And so it's not uncommon to accomplish less in a fixed amount of time than you hope.
-
-### In a sentence (or list of features), define a GOOD outcome for your final project. I.e., what WILL you accomplish no matter what?
-
-A game that functions with the arrows on the keyboard. We will use sprites and a background that we created ourselves. 
-
-### In a sentence (or list of features), define a BETTER outcome for your final project. I.e., what do you THINK you can accomplish before the final project's deadline?
-
-Player will be able to both navigate maze AND answer questions about CS 1051. 
-
-### In a sentence (or list of features), define a BEST outcome for your final project. I.e., what do you HOPE to accomplish before the final project's deadline?
-
-Player will be able to customize their sprite and the spite that they meet at the end to win the game. There will also be mini games within the game itself. 
-
-## In a paragraph or more, outline your next steps. What new skills will you need to acquire? What topics will you need to research? If working with one of two classmates, who will do what?
-
-First, we need to familiar ourselves with bot Github and RenPy. Next, we will need to create a sprite. We'll each create one sprite and collaborate in the background. We will then need to create a code for the movement of the sprite, and the code that will ask the player questions about CS 1051. We will each take on one of these tasks. Finally we will work together on a code that allows the player to customize the sprite. 
+There became difficulties during the transition from level to level in this game. As you can see we have created level_1, 2 and 3. And in order to call each level we have written setup_maze(). This is called in our Main Game Loop, when the player reaches each target gold amount in each level. I started with simply writing, levels.remove(levels[current_level_index]setup_maze(levels[current_level_index])
