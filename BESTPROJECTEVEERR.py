@@ -49,7 +49,6 @@ class Player(turtle.Turtle):
         # Player Characterisitcs
         self.gold = 0
         self.lives = 3
-
     def go_up(self):
         # Calculate the spot to move to
         move_to_x = self.xcor()
@@ -141,7 +140,6 @@ def questions(treasure):
             break
     return False
 
-print(questions)
 # Creating the enemy
 class Enemy(turtle.Turtle):
     def __init__(self, x, y):
@@ -410,11 +408,16 @@ wn.tracer(0)
 current_level_index = 0
 
 current_level_gold = 300
-
+print("Welcome! Answer each question, avoid snakes, and Escape 1051!")
+print("Player Gold: {}".format(player.gold))
+print("Lives: {}".format(player.lives))
+    
 # Main Game Loop
 while True:
+    
     # Check for player collision with treasure
     # iterate through treasure list
+    
     for treasure in treasures:
         if player.is_collision(treasure) is True:
             # Add the treasure gold to the player gold when answer is correct
