@@ -1,6 +1,6 @@
-# Hello! This is a video walk through for our game “Escape 1051” solely created in Python for CIS 1051’s Final Project. 
+# Hello! This is a video walk through for our game “Escape 1051” solely created in Python for CIS 1051’s Final Project. https://youtu.be/a0J3bdVyAd8?si=0Y7gPWhLwCd5XSAh.
 
-My name is Sheila Jimenez, I’m a sophomore, and I created this game with Olivia Ciferni, who’s a freshman. https://youtu.be/a0J3bdVyAd8?si=0Y7gPWhLwCd5XSAh
+My name is Sheila Jimenez, I’m a sophomore, and I created this game with Olivia Ciferni, who’s a freshman. 
 
 Our game, Escape 1051, is a maze game. The player begins with 3 lives, and 0 gold. There are three cats in each level which will ask a different question about python. You must answer each question about python correctly in order to collect all the gold from the cats. Each cat holds 100 gold totalling to 300 in a level. Once you reach a total of 900 gold, and pass 3 levels you win!
 However, Escaping 1051 is not going to be easy, as there are snakes that will increase through each level.  Once you hit a snake you are taken back to the start and lose a life. You can gain 1 life once you complete each level.
