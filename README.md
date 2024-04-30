@@ -37,6 +37,3 @@ Since it was only a matter of reading the files we downloaded and called them in
 As you can see, it is Professor Rosen, he is avoiding the python snakes, answering each python question and collecting the gold from his cat in order to Escape 1051!.
 After we were able to bind “setp_upmaze” to each x and y pixel and get the transition to each level to work we also enjoyed simply typing an X to correspond to a wall. 
 This made creating our own map incredibly easy. The same goes for each enemy and treasure as we were able to place them anywhere we chose. It truly became our game because of this.
-
-“Turtle.onkey” allows the computer user to use the “left,right,up,and down” arrows. This function is used to bind a function to the key-release event of the key. This is very important in our game as it allows the player to escape and move around freely during the game.
-
